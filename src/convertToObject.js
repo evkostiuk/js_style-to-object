@@ -6,21 +6,17 @@
  * @return {object}
  */
 function convertToObject(sourceString) {
-  const lines = sourceString
+  return sourceString
     .split(';')
-    .map((line) => line.trim())
-    .filter((line) => line);
-  const stylesObject = {};
-
-  for (const line of lines) {
-    const [property, value] = line.split(':').map((part) => part.trim());
-
-    if (property && value) {
-      stylesObject[property] = value;
-    }
-  }
-
-  return stylesObject;
+    .map(line => line.trim())
+    .filter(line => line)
+    .reduce((acc, line) => {
+      const [property, value] = line.split(':').map(part => part.trim());
+      if (property && value) {
+        acc[property] = value;
+      }
+      return acc;
+    }, {});
 }
 
 module.exports = convertToObject;
